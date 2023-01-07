@@ -1,0 +1,231 @@
+Savitribai Phule Pune University
+S.Y.M.Sc(Comp. Sci.) Practical Examination 
+Practical Paper(CSUP235) on Software Architecture and Design Patterns,Machine Learning and 
+Web Frameworks
+Duration : 3 Hours Maximum Marks: 70 
+----------------------------------------------------------------------------------------------------------------------------------------------
+26
+Q.1 Write a Java Program to implement Strategy Pattern for Duck Behavior. Create 
+instance variable that holds current state of Duck from there, we just need to handle all 
+Flying Behaviors and Quack Behavior. [20 M]
+Q.2. Write a python program to implement Multiple Linear Regression for given dataset.
+[20 M]
+Q.3 Create a Node.js file that demonstrates create database and table in MySQL. 
+[20 M]
+Q.4 Viv
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Q1------
+
+           Strategy Pattern
+1)DecoyDuck.java
+package headfirst.strategy;
+public class DecoyDuck extends Duck {
+	public DecoyDuck() {
+		setFlyBehavior(new FlyNoWay());
+		setQuackBehavior(new MuteQuack());
+	}
+	public void display() {
+		System.out.println("I'm a duck Decoy");
+	}
+}
+2)Duck.java
+  package headfirst.strategy;
+public abstract class Duck {
+	FlyBehavior flyBehavior;
+	QuackBehavior quackBehavior;
+	public Duck() {
+	}
+	public void setFlyBehavior (FlyBehavior fb) {
+		flyBehavior = fb;
+	}
+	public void setQuackBehavior(QuackBehavior qb) {
+		quackBehavior = qb;
+	}
+	abstract void display();
+	public void performFly() {
+		flyBehavior.fly();
+	}
+     public void performQuack() {
+	quackBehavior.quack();
+	} 
+	public void swim() {
+		System.out.println("All ducks float, even decoys!");
+	}
+}
+3)FakeQuack.java
+package headfirst.strategy;
+public class FakeQuack implements QuackBehavior {
+	public void quack() {
+		System.out.println("Qwak");
+	}
+}
+4)FlyBehaviour.java
+package headfirst.strategy;
+
+public interface FlyBehavior {
+	public void fly();
+}
+5)FlyNoWay.java
+package headfirst.strategy;
+public class FlyNoWay implements FlyBehavior {
+	public void fly() {
+		System.out.println("I can't fly");
+	}
+}
+6)FlyRocketPowered.java
+package headfirst.strategy;
+public class FlyRocketPowered implements FlyBehavior {
+	public void fly() {
+		System.out.println("I'm flying with a rocket");  
+  }  }
+7)FlyWithWings.java
+package headfirst.strategy;
+public class FlyWithWings implements FlyBehavior {
+	public void fly() {
+		System.out.println("I'm flying!!");
+	}
+}
+8)MallardDuck.java
+package headfirst.strategy;
+public class MallardDuck extends Duck {
+	public MallardDuck() {
+		quackBehavior = new Quack();
+                flyBehavior = new FlyWithWings();
+	}
+	public void display() {
+		System.out.println("I'm a real Mallard duck");
+	}
+}
+9)MiniDuckSimulator.java
+package headfirst.strategy;
+public class MiniDuckSimulator {
+	public static void main(String[] args) {
+		MallardDuck	mallard = new MallardDuck();
+		RubberDuck	rubberDuckie = new RubberDuck();
+		DecoyDuck	decoy = new DecoyDuck();
+		ModelDuck	model = new ModelDuck();
+
+		mallard.performQuack();
+		rubberDuckie.performQuack();
+		decoy.performQuack();
+		model.performFly();	
+		model.setFlyBehavior(new FlyRocketPowered());
+		model.performFly();
+	}
+}
+10)MiniDuckSimulator1.java
+package headfirst.strategy;
+public class MiniDuckSimulator1 {
+	public static void main(String[] args) {
+		Duck mallard = new MallardDuck();
+		mallard.performQuack();
+		mallard.performFly();
+   
+		Duck model = new ModelDuck();
+		model.performFly();
+		model.setFlyBehavior(new FlyRocketPowered());
+		model.performFly();
+	}
+}
+11)ModelDuck.java
+package headfirst.strategy;
+public class ModelDuck extends Duck {
+	public ModelDuck() {
+		flyBehavior = new FlyNoWay();
+		quackBehavior = new Quack();
+	}
+	public void display() {
+		System.out.println("I'm a model duck");
+	}
+}
+12)MuteQuack.java
+package headfirst.strategy;
+public class MuteQuack implements QuackBehavior {
+	public void quack() {
+		System.out.println("<< Silence >>");
+	}
+}
+13)Quack.java
+package headfirst.strategy;
+public class Quack implements QuackBehavior {
+	public void quack() {
+		System.out.println("Quack");
+	}
+}
+14)QuackBehaviour.java
+package headfirst.strategy;
+public interface QuackBehavior {
+	public void quack();
+}
+15)RedHeadDuck.java
+package headfirst.strategy;
+public class RedHeadDuck extends Duck {
+	public RedHeadDuck() {
+		flyBehavior = new FlyWithWings();
+		quackBehavior = new Quack();
+	}
+	public void display() {
+		System.out.println("I'm a real Red Headed duck");
+	}
+}
+16)RubberDuck.java
+package headfirst.strategy;
+public class RubberDuck extends Duck {
+	public RubberDuck() {
+		flyBehavior = new FlyNoWay();
+		quackBehavior = new Squeak();
+	}
+	public void display() {
+		System.out.println("I'm a rubber duckie");
+	}
+}
+17)Squeak.java
+package headfirst.strategy;
+public class Squeak implements QuackBehavior {
+	public void quack() {
+		System.out.println("Squeak");
+	}
+}
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Q2-------
+
+Write a python program to implement Multiple Linear Regression for given dataset.
+
+import pandas as pd
+from sklearn import linear_model
+df=pd.read_csv("multiple_regression.csv")
+df
+df=df.head(4)
+df
+x=df[['weight','volume']]
+y=df['co2'] 
+x
+y
+regr=linear_model.LinearRegression()
+regr.fit(x,y)
+predicted_co2=regr.predict([[1200,1300]])
+print(predicted_co2)
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+Q3----------
+
+Create a Node.js file that demonstrates create database and table in MySQL 
+var mysql = require('mysql'); 
+var con = mysql.createConnection({ 
+ host: "localhost", 
+ user: "root", 
+ password: "password"
+}); 
+con.connect(function(err) { 
+ if (err) throw err; 
+ console.log("Connected!"); 
+ con.query("CREATE DATABASE db", function (err, result) { 
+ if (err) throw err; 
+ console.log("Database created"); 
+ }); 
+}); 

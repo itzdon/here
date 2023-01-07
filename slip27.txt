@@ -1,0 +1,144 @@
+Savitribai Phule Pune University
+S.Y.M.Sc(Comp. Sci.) Practical Examination 
+Practical Paper(CSUP235) on Software Architecture and Design Patterns,Machine Learning and 
+Web Frameworks
+Duration : 3 Hours Maximum Marks: 70 
+----------------------------------------------------------------------------------------------------------------------------------------------
+27
+Q.1 Write a Java Program to implement Abstract Factory Pattern for Shape interface.
+[20 m]
+Q.2. Write a python program to implement Polynomial Linear Regression for given dataset
+[20 M]
+Q.3 Create your Django app in which after running the server, you should see on the 
+browser, the text “Hello! I am learning Django”, which you defined in the index view. 
+[20 M]
+Q.4 Viv
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Q1------
+
+Write a Java Program to implement Abstract Factory Pattern for Shape interface 
+interface Shape 
+{ 
+void draw(); 
+} 
+class RoundedRectangle implements Shape 
+{ 
+ public void draw() 
+ { 
+ System.out.println(" Inside RR"); 
+ } 
+} 
+class RoundedSquare implements Shape 
+{ 
+ public void draw() 
+ { 
+ System.out.println(" Inside RS"); 
+ } 
+} 
+class Rectangle implements Shape 
+{ 
+ public void draw() 
+ { 
+ System.out.println(" Inside Simple R"); 
+ } 
+} 
+class Square implements Shape 
+{ 
+ public void draw() 
+ { 
+ System.out.println(" Inside Simple Sq"); 
+ } 
+} 
+abstract class AbstractFactory 
+{ 
+ abstract Shape getShape( String st); 
+} 
+class ShapeFactory extends AbstractFactory 
+{ 
+ public Shape getShape( String st) 
+ { 
+ if(st.equalsIgnoreCase("Rectangle")) 
+ { return new Rectangle();} 
+ else if(st.equalsIgnoreCase("Square")) 
+ { return new Square();} 
+ return null; 
+ } 
+} 
+class RoundedShapeFactory extends AbstractFactory 
+{ 
+ public Shape getShape( String st) 
+ { 
+ if(st.equalsIgnoreCase("Rectangle")) 
+ { return new RoundedRectangle();} 
+ else if(st.equalsIgnoreCase("Square")) 
+ { return new RoundedSquare();} 
+ return null; 
+ } 
+} 
+class FactoryProducer 
+{ 
+ public static AbstractFactory getFactory(boolean rounded) 
+ { 
+ if (rounded) 
+ { return new RoundedShapeFactory();} 
+ else 
+ { return new ShapeFactory();} 
+ } 
+} 
+public class Main 
+{ 
+ public static void main(String[]args) 
+ { 
+ AbstractFactory shapeFactory=FactoryProducer.getFactory(false); 
+ Shape shape1=shapeFactory.getShape("Rectangle"); 
+ shape1.draw(); 
+ Shape shape2=shapeFactory.getShape("SQuare"); 
+ shape2.draw(); 
+ 
+ AbstractFactory shapeFactory1=FactoryProducer.getFactory(true); 
+ Shape shape3=shapeFactory1.getShape("REctangle"); 
+ shape3.draw(); 
+ 
+ Shape shape4=shapeFactory1.getShape("square"); 
+ shape4.draw(); 
+ } 
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Q2--------
+
+  Write a python program to implement Polynomial Linear Regression for given dataset
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+x=np.arange(0,30)
+y=[3,4,5,7,10,8,9,10,10,23,27,44,50,63,67,60,62,70,75,88,81,87,95,100,108,135,151,160,169,179]
+plt.figure(figsize=(10,6))
+plt.scatter(x,y)
+plt.show()
+
+from sklearn.preprocessing import PolynomialFeatures
+poly=PolynomialFeatures(degree=2,include_bias=False)
+poly_features=poly.fit_transform(x.reshape(-1,1))
+from sklearn.linear_model import LinearRegression
+poly_reg_model=LinearRegression()
+
+poly_reg_model.fit(poly_features,y)
+y_predicted=poly_reg_model.predict(poly_features)
+
+plt.figure(figsize=(10,6))
+plt.title("polynomial regression",size=16)
+plt.scatter(x,y)
+plt.plot(x,y_predicted,c="red")
+plt.show()
+
+y1=poly_reg_model.predict(poly.fit_transform(np.array([34]).reshape(-1,1)))
+print(y1)
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Q3------
+
+

@@ -1,0 +1,122 @@
+Savitribai Phule Pune University
+S.Y.M.Sc(Comp. Sci.) Practical Examination 
+Practical Paper(CSUP235) on Software Architecture and Design Patterns,Machine Learning and 
+Web Frameworks
+Duration : 3 Hours Maximum Marks: 70 
+----------------------------------------------------------------------------------------------------------------------------------------------
+21
+Q.1 Write a Java Program to implement command pattern to test Remote Control 
+[20 M]
+Q.2. Write a python program to implement Linear SVM. [20 M]
+Q.3 Design a Django application: A public site in which user can pick their favourite 
+programming language and vote. [20 M]
+ 
+Q.4 Viva
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Q1-----
+
+Write a Java Program to implement command pattern to test Remote Control 
+interface Command { 
+ public void execute(); 
+} 
+class Light { 
+ public void on(){ 
+ System.out.println("Light is on"); 
+ } 
+ public void off() 
+ { 
+ System.out.println("Light is off"); 
+ } 
+} 
+ class LightOnCommand implements Command { 
+ Light l1; 
+ 
+ public LightOnCommand(Light a) { 
+ this.l1 = a; 
+ } 
+ 
+ public void execute() { 
+ l1.on(); 
+ } 
+ 
+} 
+ class LightOffCommand implements Command { 
+Light l1; 
+public LightOffCommand(Light a) { 
+this.l1 = a; 
+} 
+public void execute() { 
+l1.off(); 
+} 
+} 
+ class SimpleRemoteControl { 
+ Command slot;  
+ public SimpleRemoteControl() {} 
+ 
+ public void setCommand(Command command) { 
+ slot = command; 
+ } 
+ 
+ public void buttonWasPressed() { 
+ slot.execute(); 
+ } 
+ 
+} 
+public class Main { 
+ public static void main(String[] args) { 
+ SimpleRemoteControl r1 = new SimpleRemoteControl(); 
+ Light l1 = new Light(); 
+ 
+LightOnCommand lo = new LightOnCommand(l1); 
+ r1.setCommand(lo); 
+ r1.buttonWasPressed(); 
+LightOffCommand lO = new LightOffCommand(l1); 
+r1.setCommand(lO); 
+r1.buttonWasPressed(); 
+ 
+ } 
+} 
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Q2--------
+
+ Write a python program to implement Linear SVM.
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn import svm,datasets
+
+iris=datasets.load_iris()
+
+X=iris.data[:,:2]
+y=iris.target
+
+C=1.0
+
+svc=svm.SVC(kernel='linear',C=1).fit(X,y)
+
+x_min, x_max =X[:,0].min() -1, X[:,0].max()+1
+y_min, y_max =X[:,1].min() -1, X[:,0].max()+1
+h=(x_max / x_min)/100
+xx,yy =np.meshgrid(np.arange(x_min, x_max,h),
+                   np.arange(y_min,y_max,h))
+
+plt.subplot(1,1,1)
+
+
+Z=svc.predict(np.c_[xx.ravel(), yy.ravel()])
+Z=Z.reshape(xx.shape)
+plt.contourf(xx,yy,Z,cmap = plt.cm.Paired,aplha=0.8)
+plt.scatter(X[:,0],X[:,1],c=y, cmap=plt.cm.Paired)
+plt.xlabel('Sepal length')
+plt.xlabel('Sepal width')
+plt.xlim(xx.min(),xx.max())
+plt.title('SVC with linear kernel')
+plt.show()
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+Q3--------
+

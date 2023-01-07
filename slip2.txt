@@ -1,0 +1,160 @@
+Savitribai Phule Pune University
+S.Y.M.Sc(Comp. Sci.) Practical Examination 
+Practical Paper(CSUP235) on Software Architecture and Design Patterns,Machine Learning and 
+Web Frameworks
+Duration : 3 Hours Maximum Marks: 70 
+----------------------------------------------------------------------------------------------------------------------------------------------
+2
+Q.1 Write a Java Program to implement Singleton pattern for multithreading
+[20 M]
+Q.2 Write a python program to find all null values in a given dataset and remove them.
+[20 M]
+Q.3 Create an HTML form that contain the Employee Registration details and write 
+a JavaScript to validate DOB, Joining Date, and Salary. [20 M]
+Q.4 Viva [10 M
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Q1---------
+
+Write a Java Program to implement Singleton pattern for multithreading. 
+public class Main { 
+ public static void main(String ar[]) { 
+ Test1 t = new Test1(); 
+ Test1 t2 = new Test1(); 
+ Test1 t3 = new Test1(); 
+ Thread tt = new Thread(t); 
+ Thread tt2 = new Thread(t2); 
+#DipaliMeher
+P. E. Society’s 
+Modern College of Arts, Science and Commerce, Ganeshkhind, Pune 16 
+Class: MSc(Computer Science) Sem III 
+Subject: Design Patterns 
+Collection of Programmes by Dr. Dipali Meher 
+#DipaliMeher
+ Thread tt3 = new Thread(t3); 
+ Thread tt4 = new Thread(t); 
+ Thread tt5 = new Thread(t); 
+ tt.start(); 
+ tt2.start(); 
+ tt3.start(); 
+ tt4.start(); 
+ tt5.start(); 
+ } 
+} 
+final class Test1 implements Runnable { 
+ @Override 
+ public void run() { 
+ for (int i = 0; i < 5; i++) { 
+ System.out.println(Thread.currentThread().getName() + " : " + 
+Single.getInstance().hashCode()); 
+ } 
+ } 
+} 
+ 
+class Single { 
+ private final static Single sing = new Single(); 
+ private Single() { 
+ } 
+ public static Single getInstance() { 
+ return sing; 
+ } 
+ } 
+
+
+
+
+ ------------------------------------------------------------------------------------------------------------------------
+Q2---------
+
+Write a python program to find all null values in a given dataset and remove them.
+Firstly Create CSV File
+ST_NUM		ST_NAME		NUM_BEDROOMS		OWN_OCCUPIED
+104		PUTNAM			3			Y
+197		LEXINGTON		3			N
+		LEXINGTON		N/A			N
+201		BERKELEY			1			12	
+203		BERKELEY			3			Y
+207		BERKELEY			NA			Y
+NA		WASHINGTON		2			
+213		TREMONT			--			Y
+215		TREMONT			NA			Y
+
+import pandas as pd
+import numpy as np
+df=pd.read_csv("nullvalues.csv")
+df
+print(df.head())
+print(df['ST_NUM'])
+
+print(df['ST_NUM'])
+print(df['ST_NUM'].isnull())
+
+print(df['NUM_BEDROOMS'])
+print(df['NUM_BEDROOMS'].isnull())
+
+missing_values = ["n/a", "na", "--"]
+df = pd.read_csv("nullvalues.csv", na_values = missing_values)
+
+print(df['OWN_OCCUPIED'])
+print(df['OWN_OCCUPIED'].isnull())
+
+print(df.isnull().sum())
+
+(df['ST_NUM'].fillna(125,inplace=True))
+
+df
+
+-------------------------------------------------------------------------------------------------------------------------
+
+Q3----------
+
+Create an HTML form that contain the Employee Registration details and write a JavaScript to 
+validate DOB, Joining Date, and Salary 
+<html>
+<head>
+ <title>Employee Registration</title>
+ <script>
+ function validate(){ 
+ const d = new Date(); 
+ var DOB = document.getElementById("dob").value; 
+ var DOB1 =new Date(DOB); 
+ var jd = document.getElementById("joiningDate").value; 
+ var jd1 = new Date(jd); 
+ 
+ var Salary = document.getElementById("salary").value; 
+ if (!(DOB1 < d )){ 
+ alert("DOB should be less than current date "); 
+ return false; 
+ } 
+ else if (!(jd1 >= d)){ 
+ alert("joining date should be greater than or equal 
+to current date "); 
+ return false; 
+ } 
+ else if (!(Salary >= 10000)){ 
+ alert("salary should be greater than 10000"); 
+ return false; 
+ } 
+ alert("Verification Complete"); 
+ return true; 
+ } 
+ </script>
+</head>
+<body bgcolor="pink">
+ <form>
+ <h2>Employee registration</h2>
+ Name:<input type="text" id="name" /><br>
+ DOB:<input type="date" id="dob" /><br>
+ Joining Date:<input type="date" id="joiningDate" /><br>
+ Salary:<input type="number" id="salary"><br>
+ <input type="submit" value="Submit" onclick = validate()>
+ </form>
+ 
+</body>
+</html>
+
+
+
+
+

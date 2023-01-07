@@ -1,0 +1,131 @@
+Savitribai Phule Pune University
+S.Y.M.Sc(Comp. Sci.) Practical Examination 
+Practical Paper(CSUP235) on Software Architecture and Design Patterns,Machine Learning and 
+Web Frameworks
+Duration : 3 Hours Maximum Marks: 70 
+----------------------------------------------------------------------------------------------------------------------------------------------
+20
+Q.1 Write a Java Program to implement I/O Decorator for converting uppercase letters to 
+ lower case letters. [20 M]
+Q.2. Write a python program to implement Decision Tree whether or not to play Tennis. 
+[20 M]
+Q.3 Develop a basic poll application (app).It should consist of two parts:
+ a) A public site in which user can pick their favourite programming language and vote.
+ b) An admin site that lets you add, change and delete programming languages. 
+[20 M]
+Q.4 Viv
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Q1----
+
+Decorator Pattern
+●	Io
+1)InputTest.java
+package headfirst.decorator.io;
+import java.io.*;
+public class InputTest {
+	public static void main(String[] args) throws IOException {
+		int c;
+		try {
+			InputStream in = 
+				new LowerCaseInputStream(
+					new BufferedInputStream(
+						new FileInputStream("test.txt")));
+			while((c = in.read()) >= 0) {
+				System.out.print((char)c);
+			}
+			in.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+}
+2)LowerCaseInputStream.java
+package headfirst.decorator.io;
+import java.io.*;
+public class LowerCaseInputStream extends FilterInputStream {
+	public LowerCaseInputStream(InputStream in) {
+		super(in);
+	}
+	public int read() throws IOException {
+		int c = super.read();
+		return (c == -1 ? c : Character.toLowerCase((char)c));
+	}	
+	public int read(byte[] b, int offset, int len) throws IOException {
+		int result = super.read(b, offset, len);
+		for (int i = offset; i < offset+result; i++) {
+			b[i] = (byte)Character.toLowerCase((char)b[i]);
+		}
+		return result;
+	}
+}
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+Q2--------
+
+rite a python program to implement Decision Tree whether or not to play Tennis
+PlayTennis.csv
+outtlook, temp, humidity, windy, play
+sunny, hot, high, false, no
+sunny, hot, high, false, no
+overcast, hot, high, false, yes
+rainy, mild, high, false, yes
+rainy, cool, normal, false, yes
+rainy, cool, normal, true. no
+overcast, cool, normal, true, yes
+sunny, mild, high, false, no
+sunny, cool, normal, false, yes
+rainy, mild, normal, false, yes
+sunny, mild, normal, true, yes
+overcast, mild, high, true, yes
+overcast, hot, normal, false, yes
+rainy, mild, high, true, no
+
+-----------
+import numpy as np
+import pandas as pd
+
+data=pd.read_csv("PlayTennis.csv")
+data
+from sklearn.preprocessing import LabelEncoder
+
+outlook=LabelEncoder()
+temp=LabelEncoder()
+humidity=LabelEncoder()
+windy=LabelEncoder()
+play=LabelEncoder()
+data['outlook']=outlook.fit_transform(data['outlook'])
+data['temp']=outlook.fit_transform(data['temp'])
+data['humidity']=outlook.fit_transform(data['humidity'])
+data['windy']=outlook.fit_transform(data['windy'])
+data['play']=outlook.fit_transform(data['play'])
+
+data
+
+features_cols=['outlook','temp','humidity','windy']
+x=data[features_cols]
+y=data.play
+
+x
+y
+from sklearn.model_selection import train_test_split
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.2)
+from sklearn.tree import DecisionTreeClassifier
+classifier=DecisionTreeClassifier(criterion='gini')
+classifier.fit(x_train,y_train)
+classifier.predict(x_test)
+x_test
+y_test
+
+classifier.score(x_test,y_test)
+
+from sklearn import tree
+tree.plot_tree(classifier)
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Q3-----
+

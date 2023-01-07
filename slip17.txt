@@ -1,0 +1,173 @@
+Savitribai Phule Pune University
+S.Y.M.Sc(Comp. Sci.) Practical Examination 
+Practical Paper(CSUP235) on Software Architecture and Design Patterns,Machine Learning and 
+Web Frameworks
+Duration : 3 Hours Maximum Marks: 70 
+----------------------------------------------------------------------------------------------------------------------------------------------
+17
+Q.1 Write a Java Program to implement Abstract Factory Pattern for Shape interface.
+[20 M]. 
+Q.2. Write a python program to implement Multiple Linear Regression for a given dataset.
+[20 M]
+Q.3 Write node js application that transfer a file as an attachment on web and enables 
+browser to prompt the user to download file using express js. [20 M]
+Q.4 Viva 
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Q1-----
+
+•	SHAPE INTERFACE
+	Shape.java
+	
+public interface Shape {
+   void draw();
+	}
+
+RoundedRectangle.java
+public class RoundedRectangle implements Shape {
+   @Override
+   public void draw() {
+      System.out.println("Inside RoundedRectangle::draw() method.");
+   }
+}
+
+RoundedSquare.java
+public class RoundedSquare implements Shape {
+   @Override
+   public void draw() {
+      System.out.println("Inside RoundedSquare::draw() method.");
+   }
+}
+
+Rectangle.java
+public class Rectangle implements Shape {
+   @Override
+   public void draw() {
+      System.out.println("Inside Rectangle::draw() method.");
+   }
+}
+.
+AbstractFactory.java
+public abstract class AbstractFactory {
+   abstract Shape getShape(String shapeType) ;
+}
+ShapeFactory.java
+public class ShapeFactory extends AbstractFactory {
+   @Override
+   public Shape getShape(String shapeType){    
+      if(shapeType.equalsIgnoreCase("RECTANGLE")){
+         return new Rectangle();         
+      }else if(shapeType.equalsIgnoreCase("SQUARE")){
+         return new Square();
+      }	 
+      return null;
+   }
+}
+
+RoundedShapeFactory.java
+public class RoundedShapeFactory extends AbstractFactory {
+   @Override
+   public Shape getShape(String shapeType){    
+      if(shapeType.equalsIgnoreCase("RECTANGLE")){
+         return new RoundedRectangle();         
+      }else if(shapeType.equalsIgnoreCase("SQUARE")){
+         return new RoundedSquare();
+      }	 
+      return null;
+   }
+}
+
+FactoryProducer.java
+public class FactoryProducer {
+   public static AbstractFactory getFactory(boolean rounded){   
+      if(rounded){
+         return new RoundedShapeFactory();         
+      }else{
+         return new ShapeFactory();
+      }
+   }
+}
+
+AbstractFactoryPatternDemo.java
+public class AbstractFactoryPatternDemo {
+   public static void main(String[] args) {
+      //get shape factory
+      AbstractFactory shapeFactory = FactoryProducer.getFactory(false);
+      //get an object of Shape Rectangle
+      Shape shape1 = shapeFactory.getShape("RECTANGLE");
+      //call draw method of Shape Rectangle
+      shape1.draw();
+      //get an object of Shape Square 
+      Shape shape2 = shapeFactory.getShape("SQUARE");
+      //call draw method of Shape Square
+      shape2.draw();
+      //get shape factory
+      AbstractFactory shapeFactory1 = FactoryProducer.getFactory(true);
+      //get an object of Shape Rectangle
+      Shape shape3 = shapeFactory1.getShape("RECTANGLE");
+      //call draw method of Shape Rectangle
+      shape3.draw();
+      //get an object of Shape Square 
+      Shape shape4 = shapeFactory1.getShape("SQUARE");
+      //call draw method of Shape Square
+      shape4.draw();
+      
+   }
+}
+
+Verify the output.
+Inside Rectangle::draw() method.
+Inside Square::draw() method.
+Inside RoundedRectangle::draw() method.
+Inside RoundedSquare::draw() method.
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Q2--------
+
+ Write a python program to implement Multiple Linear Regression for given dataset.
+
+import pandas as pd
+from sklearn import linear_model
+df=pd.read_csv("multiple_regression.csv")
+df
+df=df.head(4)
+df
+x=df[['weight','volume']]
+y=df['co2'] 
+x
+y
+regr=linear_model.LinearRegression()
+regr.fit(x,y)
+predicted_co2=regr.predict([[1200,1300]])
+print(predicted_co2)
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Q3--------
+
+Write node js application that transfer a file as an attachment on web and enables browser to 
+prompt the user to download file using express js. 
+var express = require('express'); 
+const fs = require('fs'); 
+var app = express(); 
+var PORT = 3000; 
+var bodyParser = require('body-parser'); 
+app.use(bodyParser.urlencoded({extended:false})); 
+app.get('/',function(req,res){ 
+ const files = fs.createReadStream('Q17.html'); 
+ res.writeHead(200,{'content-type':'text/html'}); 
+ files.pipe(res); 
+}); 
+app.post('/file-data',function(req,res){ 
+ var name = req.body.id; 
+ res.download(name); 
+}); 
+app.listen(PORT,function(err){ 
+ if(err) console.log(err); 
+ console.log("server Listening port",PORT) 
+}); 
+
+
+

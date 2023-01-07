@@ -1,0 +1,106 @@
+Savitribai Phule Pune University
+S.Y.M.Sc(Comp. Sci.) Practical Examination 
+Practical Paper(CSUP235) on Software Architecture and Design Patterns,Machine Learning and 
+Web Frameworks
+Duration : 3 Hours Maximum Marks: 70 
+----------------------------------------------------------------------------------------------------------------------------------------------
+25
+Q.1 Write a Java Program to implement Singleton pattern for multithreading [20 M]
+Q.2. Write a python program to Implement Simple Linear Regression for predicting house 
+price. [20 M]
+Q.3 Create a Simple Web Server using node js. [20 M]
+Q.4 Viv
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Q1-----
+
+Write a Java Program to implement Singleton pattern for multithreading. 
+public class Main { 
+ public static void main(String ar[]) { 
+ Test1 t = new Test1(); 
+ Test1 t2 = new Test1(); 
+ Test1 t3 = new Test1(); 
+ Thread tt = new Thread(t); 
+ Thread tt2 = new Thread(t2); 
+ Thread tt3 = new Thread(t3); 
+ Thread tt4 = new Thread(t); 
+ Thread tt5 = new Thread(t); 
+ tt.start(); 
+ tt2.start(); 
+ tt3.start(); 
+ tt4.start(); 
+ tt5.start(); 
+ } 
+} 
+final class Test1 implements Runnable { 
+ @Override 
+ public void run() { 
+ for (int i = 0; i < 5; i++) { 
+ System.out.println(Thread.currentThread().getName() + " : " + 
+Single.getInstance().hashCode()); 
+ } 
+ } 
+} 
+ 
+class Single { 
+ private final static Single sing = new Single(); 
+ private Single() { 
+ } 
+ public static Single getInstance() { 
+ return sing; 
+ } 
+ } 
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+Q2----------
+
+Write a python program to Implement Simple Linear Regression for predicting house price.
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+
+def estimate_coef(x,y):
+    n=np.size(x)
+    m_x=np.mean(x)
+    m_y=np.mean(y)
+    SS_xy =np.sum(y*x) - n*m_y*m_x
+    SS_xx =np.sum(x*x) - n*m_x*m_x
+    b_1 = SS_xy / SS_xx
+    b_0 = m_y - b_1*m_x
+    return(b_0, b_1)
+
+def plot_regression_line(x,y,b):
+    plt.scatter(x,y,color ="m",marker="o", s=30)
+    y_pred =b[0] +b[1]*x
+    plt.plot(x,y_pred,color="g")
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.show()
+
+def main():
+# observations / data
+    df=pd.read_csv("kc_house_data.csv")
+    y=df['price']
+    x=df['bedrooms']
+    b=estimate_coef(x,y)
+    print("coefficients are b_0 ={},b_1 = {}".format(b[0], b[1]))
+    plot_regression_line(x,y,b)
+
+if __name__ == "__main__":
+       main()
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+Q3------
+
+Create a Simple Web Server using node js 
+var http = require('http'); 
+http.createServer(function(req,res){ 
+ res.writeHead(200,{'content-type':'text/html'}); 
+ res.write("Server Created"); 
+ console.log("Server Created"); 
+ res.end(); 
+}).listen(8080);
+

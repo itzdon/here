@@ -1,0 +1,168 @@
+Savitribai Phule Pune University
+S.Y.M.Sc(Comp. Sci.) Practical Examination 
+Practical Paper(CSUP235) on Software Architecture and Design Patterns,Machine Learning and 
+Web Frameworks
+Duration : 3 Hours Maximum Marks: 70 
+----------------------------------------------------------------------------------------------------------------------------------------------
+16
+Q.1 Write a Java Program to implement Observer Design Pattern for number conversion.
+Accept a number in Decimal form and represent it in Hexadecimal, Octal and Binary. 
+Change the Number and it reflects in other forms also [20 M]
+Q.2 Write a python program to Implement Simple Linear Regression for predicting house 
+price. [20 M]
+Q.3 Create a js file named main.js for event-driven application. There should be a main 
+loop that listens for events, and then triggers a callback function when one of those 
+events is detected. [20 M]
+Q.4 Viva 
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+Q1-------
+
+Write a Java Program to implement Observer Design Pattern for number conversion. 
+Accept a number in Decimal form and represent it in Hexadecimal, Octal and Binary. 
+Change the Number and it reflects in other forms also 
+import java.util.ArrayList; 
+import java.util.List; 
+class Subject 
+{ 
+ private List<Observer>observers=new ArrayList<Observer>(); 
+ private int state; 
+ public int getState() 
+ { 
+ return state; 
+ } 
+ public void setState(int s) 
+ { 
+ this.state=s; 
+ notifyAllObservers(); 
+ } 
+ 
+ public void attach (Observer o1) 
+ { 
+ observers.add(o1); 
+ } 
+ public void notifyAllObservers() 
+ { 
+ for(Observer o1: observers) 
+ { 
+ o1.update(); 
+ } 
+ } 
+} 
+abstract class Observer 
+{ 
+protected Subject s1; 
+public abstract void update(); 
+} 
+class BinaryObserver extends Observer 
+ { 
+ public BinaryObserver(Subject s) 
+ { 
+ this.s1=s; 
+ this.s1.attach(this); 
+ } 
+ public void update() 
+ { 
+ System.out.println("Binary String:" +Integer.toBinaryString(s1.getState())); 
+ } 
+} 
+class OctalObserver extends Observer 
+ { 
+ public OctalObserver(Subject s) 
+ { 
+ this.s1=s; 
+ this.s1.attach(this); 
+ } 
+ public void update() 
+ { 
+ System.out.println("Octal String:" +Integer.toOctalString(s1.getState())); 
+ } 
+} 
+class HexaObserver extends Observer 
+ { 
+ public HexaObserver(Subject s) 
+ { 
+ this.s1=s; 
+ this.s1.attach(this); 
+ } 
+ public void update() 
+ { 
+ System.out.println("Heaxdeciamal String:" +Integer.toHexString(s1.getState())); 
+ } 
+} 
+public class Main 
+{ 
+ public static void main(String [] args) 
+ { 
+ Subject s1=new Subject(); 
+ new BinaryObserver(s1); 
+ new OctalObserver(s1); 
+ new HexaObserver(s1); 
+ System.out.println("First state Change:15"); 
+ s1.setState(15); 
+ System.out.println("Second state Change:10"); 
+ s1.setState(10); 
+ } 
+} 
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+Q2-----
+
+Write a python program to Implement Simple Linear Regression for predicting house price.
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+
+def estimate_coef(x,y):
+    n=np.size(x)
+    m_x=np.mean(x)
+    m_y=np.mean(y)
+    SS_xy =np.sum(y*x) - n*m_y*m_x
+    SS_xx =np.sum(x*x) - n*m_x*m_x
+    b_1 = SS_xy / SS_xx
+    b_0 = m_y - b_1*m_x
+    return(b_0, b_1)
+
+def plot_regression_line(x,y,b):
+    plt.scatter(x,y,color ="m",marker="o", s=30)
+    y_pred =b[0] +b[1]*x
+    plt.plot(x,y_pred,color="g")
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.show()
+
+def main():
+# observations / data
+    df=pd.read_csv("kc_house_data.csv")
+    y=df['price']
+    x=df['bedrooms']
+    b=estimate_coef(x,y)
+    print("coefficients are b_0 ={},b_1 = {}".format(b[0], b[1]))
+    plot_regression_line(x,y,b)
+
+if __name__ == "__main__":
+       main()
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+Q3------
+
+Create a js file named main.js for event-driven application. There should be a main loop that 
+listens for events, and then triggers a callback function when one of those events is detected. 
+//import event modules
+var events = require('events'); 
+//create an eventEmitter object
+var eventEmitter = new events.EventEmitter(); 
+//create an event handler
+var connectHandler = function connected(s){ 
+ console.log('Its',s); 
+} 
+//Bind the connection event with the Handler
+eventEmitter.on('data_received',function(name){ 
+ console.log(name,"Understood event -Driven"); 
+}); 
+eventEmitter.emit('data_received',"Divya Meher"); 
+eventEmitter.on('connection',connectHandler); 
+eventEmitter.emit('connection',"SIMPLE SOLUTION") 
+console.log("program Ended"); 
