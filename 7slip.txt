@@ -1,0 +1,432 @@
+Savitribai Phule Pune University
+S.Y.M.Sc(Comp. Sci.) Practical Examination 
+Practical Paper(CSUP235) on Software Architecture and Design Patterns,Machine Learning and 
+Web Frameworks
+Duration : 3 Hours Maximum Marks: 70 
+----------------------------------------------------------------------------------------------------------------------------------------------
+7
+Q.1 Write a Java Program to implement undo command to test Ceiling fan. [20 M]
+Q.2. Write a python program to implement Naive Bayes. [20 M]
+Q. 3 Create a Node.js file that writes an HTML form, with an upload field. [20 M] 
+Q.4 Viva 
+
+-----------------------------------------------------------------------------------------------------------------------------------
+
+Q1------
+
+●	Undo
+1)CeilingFan.java
+package headfirst.command.undo;
+public class CeilingFan {
+	public static final int HIGH = 3;
+	public static final int MEDIUM = 2;
+	public static final int LOW = 1;
+	public static final int OFF = 0;
+	String location;
+	int speed;
+	public CeilingFan(String location) {
+		this.location = location;
+		speed = OFF;
+	}
+	public void high() {
+		speed = HIGH;
+		System.out.println(location + " ceiling fan is on high");
+	} 
+	public void medium() {
+		speed = MEDIUM;
+		System.out.println(location + " ceiling fan is on medium");
+	}
+	public void low() {
+		speed = LOW;
+		System.out.println(location + " ceiling fan is on low");
+	}
+	public void off() {
+		speed = OFF;
+		System.out.println(location + " ceiling fan is off");
+	}
+	public int getSpeed() {
+		return speed;
+	}
+}
+2)CeilingFanHighCommand.java
+package headfirst.command.undo;
+public class CeilingFanHighCommand implements Command {
+	CeilingFan ceilingFan;
+	int prevSpeed;
+	public CeilingFanHighCommand(CeilingFan ceilingFan) {
+		this.ceilingFan = ceilingFan;
+	}
+	public void execute() {
+		prevSpeed = ceilingFan.getSpeed();
+		ceilingFan.high();
+	}
+	public void undo() {
+		if (prevSpeed == CeilingFan.HIGH) {
+			ceilingFan.high();
+		} else if (prevSpeed == CeilingFan.MEDIUM) {
+			ceilingFan.medium();
+		} else if (prevSpeed == CeilingFan.LOW) {
+			ceilingFan.low();
+		} else if (prevSpeed == CeilingFan.OFF) {
+			ceilingFan.off();
+		}
+	}
+}
+3)CeilingFanLowCommand.java
+package headfirst.command.undo;
+public class CeilingFanLowCommand implements Command {
+	CeilingFan ceilingFan;
+	int prevSpeed;
+	public CeilingFanLowCommand(CeilingFan ceilingFan) {
+		this.ceilingFan = ceilingFan;
+	}
+	public void execute() {
+		prevSpeed = ceilingFan.getSpeed();
+		ceilingFan.low();
+	}
+	public void undo() {
+		if (prevSpeed == CeilingFan.HIGH) {
+			ceilingFan.high();
+		} else if (prevSpeed == CeilingFan.MEDIUM) {
+			ceilingFan.medium();
+		} else if (prevSpeed == CeilingFan.LOW) {
+			ceilingFan.low();
+		} else if (prevSpeed == CeilingFan.OFF) {
+			ceilingFan.off();
+		}
+	}
+}
+4)CeilingFanMediumCommand.java
+package headfirst.command.undo;
+public class CeilingFanMediumCommand implements Command {
+	CeilingFan ceilingFan;
+	int prevSpeed;
+	public CeilingFanMediumCommand(CeilingFan ceilingFan) {
+		this.ceilingFan = ceilingFan;
+	}
+	public void execute() {
+		prevSpeed = ceilingFan.getSpeed();
+		ceilingFan.medium();
+	}
+	public void undo() {
+		if (prevSpeed == CeilingFan.HIGH) {
+			ceilingFan.high();
+		} else if (prevSpeed == CeilingFan.MEDIUM) {
+			ceilingFan.medium();
+		} else if (prevSpeed == CeilingFan.LOW) {
+			ceilingFan.low();
+		} else if (prevSpeed == CeilingFan.OFF) {
+			ceilingFan.off();
+		}
+	}
+}
+5)CeilingFanOffCommand.java
+package headfirst.command.undo;
+public class CeilingFanOffCommand implements Command {
+	CeilingFan ceilingFan;
+	int prevSpeed;
+	public CeilingFanOffCommand(CeilingFan ceilingFan) {
+		this.ceilingFan = ceilingFan;
+	}
+	public void execute() {
+		prevSpeed = ceilingFan.getSpeed();
+		ceilingFan.off();
+	}
+	public void undo() {
+		if (prevSpeed == CeilingFan.HIGH) {
+			ceilingFan.high();
+		} else if (prevSpeed == CeilingFan.MEDIUM) {
+			ceilingFan.medium();
+		} else if (prevSpeed == CeilingFan.LOW) {
+			ceilingFan.low();
+		} else if (prevSpeed == CeilingFan.OFF) {
+			ceilingFan.off();
+		}
+	}
+}
+6)Command.java
+package headfirst.command.undo;
+public interface Command {
+	public void execute();
+	public void undo();
+}
+7)DimmerLightOffCommand.java
+package headfirst.command.undo;
+public class DimmerLightOffCommand implements Command {
+	Light light;
+	int prevLevel;
+	public DimmerLightOffCommand(Light light) {
+		this.light = light;
+		prevLevel = 100;
+	}
+	public void execute() {
+		prevLevel = light.getLevel();
+		light.off();
+	}
+	public void undo() {
+		light.dim(prevLevel);
+	}
+}
+8)DimmerLightOnCommand.java
+package headfirst.command.undo;
+public class DimmerLightOnCommand implements Command {
+	Light light;
+	int prevLevel;
+	public DimmerLightOnCommand(Light light) {
+		this.light = light;
+	}
+	public void execute() {
+		prevLevel = light.getLevel();
+		light.dim(75);
+	}
+public void undo() {
+		light.dim(prevLevel);
+	}
+}
+9)Light.java
+package headfirst.command.undo;
+public class Light {
+	String location;
+	int level;
+	public Light(String location) {
+		this.location = location;
+	}
+	public void on() {
+		level = 100;
+		System.out.println("Light is on");
+	}
+	public void off() {
+		level = 0;
+		System.out.println("Light is off");
+	}
+	public void dim(int level) {
+		this.level = level;
+		if (level == 0) {
+			off();
+		}
+		else {
+			System.out.println("Light is dimmed to " + level + "%");
+		}
+	}
+	public int getLevel() {
+		return level;
+	}
+}
+10)LightOffCommand.java
+package headfirst.command.undo;
+public class LightOffCommand implements Command {
+	Light light;
+	int level;
+	public LightOffCommand(Light light) {
+		this.light = light;
+	}
+	public void execute() {
+        level = light.getLevel();
+		light.off();
+	}
+	public void undo() {
+		light.dim(level);
+	}
+}
+11)LightOnCommand.java
+package headfirst.command.undo;
+public class LightOnCommand implements Command {
+	Light light;
+	int level;
+	public LightOnCommand(Light light) {
+		this.light = light;
+	}
+	public void execute() {
+        level = light.getLevel();
+		light.on();
+	}
+	public void undo() {
+		light.dim(level);
+	}
+}
+12)NoCommand.java
+package headfirst.command.undo;
+public class NoCommand implements Command {
+	public void execute() { }
+	public void undo() { }
+}
+13)RemoteControlWithUndo.java
+package headfirst.command.undo;
+
+import java.util.*;
+//
+// This is the invoker
+//
+public class RemoteControlWithUndo {
+	Command[] onCommands;
+	Command[] offCommands;
+	Command undoCommand;
+	public RemoteControlWithUndo() {
+		onCommands = new Command[7];
+		offCommands = new Command[7];
+		Command noCommand = new NoCommand();
+		for(int i=0;i<7;i++) {
+			onCommands[i] = noCommand;
+			offCommands[i] = noCommand;
+		}
+		undoCommand = noCommand;
+	}
+	public void setCommand(int slot, Command onCommand, Command offCommand) {
+		onCommands[slot] = onCommand;
+		offCommands[slot] = offCommand;
+	}
+	public void onButtonWasPushed(int slot) {
+		onCommands[slot].execute();
+		undoCommand = onCommands[slot];
+	}
+	public void offButtonWasPushed(int slot) {
+		offCommands[slot].execute();
+		undoCommand = offCommands[slot];
+	}
+	public void undoButtonWasPushed() {
+		undoCommand.undo();
+	}
+	public String toString() {
+		StringBuffer stringBuff = new StringBuffer();
+		stringBuff.append("\n------ Remote Control -------\n");
+		for (int i = 0; i < onCommands.length; i++) {
+stringBuff.append("[slot " + i + "] " + onCommands[i].getClass().getName()
+				+ "    " + offCommands[i].getClass().getName() + "\n");
+		}
+stringBuff.append("[undo] " + undoCommand.getClass().getName() + "\n");
+		return stringBuff.toString();
+	}
+}
+14)RemoteLoader.java
+package headfirst.command.undo;
+public class RemoteLoader {
+ 
+	public static void main(String[] args) {
+	RemoteControlWithUndo remoteControl = new RemoteControlWithUndo();
+		Light livingRoomLight = new Light("Living Room");
+LightOnCommand livingRoomLightOn =new LightOnCommand(livingRoomLight);
+LightOffCommand livingRoomLightOff =new LightOffCommand(livingRoomLight);
+	remoteControl.setCommand(0, livingRoomLightOn, livingRoomLightOff);
+		remoteControl.onButtonWasPushed(0);
+		remoteControl.offButtonWasPushed(0);
+		System.out.println(remoteControl);
+		remoteControl.undoButtonWasPushed();
+		remoteControl.offButtonWasPushed(0);
+		remoteControl.onButtonWasPushed(0);
+		System.out.println(remoteControl);
+		remoteControl.undoButtonWasPushed();
+		CeilingFan ceilingFan = new CeilingFan("Living Room");
+CeilingFanMediumCommand ceilingFanMedium =new CeilingFanMediumCommand(ceilingFan);
+CeilingFanHighCommand ceilingFanHigh =new CeilingFanHighCommand(ceilingFan);
+CeilingFanOffCommand ceilingFanOff =new CeilingFanOffCommand(ceilingFan);
+		remoteControl.setCommand(0, ceilingFanMedium, ceilingFanOff);
+		remoteControl.setCommand(1, ceilingFanHigh, ceilingFanOff);
+		remoteControl.onButtonWasPushed(0);
+		remoteControl.offButtonWasPushed(0);
+		System.out.println(remoteControl);
+		remoteControl.undoButtonWasPushed();
+		remoteControl.onButtonWasPushed(1);
+		System.out.println(remoteControl);
+		remoteControl.undoButtonWasPushed();
+	}
+}
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Q2----------------
+
+Write a python program to implement Naive Bayes.
+%matplotlib inline
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns;sns.set()
+
+from sklearn.datasets import make_blobs
+X,y=make_blobs(100,2,centers=2,random_state=2,cluster_std=1.5)
+plt.scatter(X[:,0],X[:,1],c=y,s=50,cmap='RdBu');
+
+from sklearn.naive_bayes import GaussianNB
+model=GaussianNB()
+model.fit(X,y);
+
+rng=np.random.RandomState(0)
+Xnew=[-6,-14]+[14,18]*rng.rand(2000,2)
+ynew=model.predict(Xnew)
+
+plt.scatter(X[:,0],X[:,1],c=y,s=50,cmap='RdBu')
+lim=plt.axis()
+plt.scatter(Xnew[:,0],Xnew[:,1],c=ynew,s=20,cmap='RdBu',alpha=0.1)
+plt.axis(lim);
+
+yprob=model.predict_proba(Xnew)
+yprob[-8:].round(2)
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Q3----------------
+
+Create a Node.js file that writes an HTML form, with an upload field 
+var http = require('http'); 
+http.createServer(function (req, res) { 
+ res.writeHead(200, {'Content-Type': 'text/html'}); 
+ res.write('<form action="fileupload" method="post" enctype="multipart/formdata">'); 
+ res.write('<input type="file" name="filetoupload"><br>'); 
+ res.write('<input type="submit">'); 
+ res.write('</form>'); 
+ return res.end(); 
+}).listen(8080);
+
+var http = require('http'); 
+var formidable = require('formidable'); 
+http.createServer(function (req, res) { 
+ if (req.url == '/fileupload') { 
+ var form = new formidable.IncomingForm(); 
+ form.parse(req, function (err, fields, files) { 
+ res.write('File uploaded'); 
+ res.end(); 
+ }); 
+ } else { 
+ res.writeHead(200, {'Content-Type': 'text/html'}); 
+ res.write('<form action="fileupload" method="post" 
+enctype="multipart/form-data">'); 
+ res.write('<input type="file" name="filetoupload"><br>'); 
+ res.write('<input type="submit">');
+res.write('</form>'); 
+ return res.end(); 
+ } 
+}).listen(8080);
+
+var http = require('http'); 
+var formidable =require('formidable'); 
+var fs = require('fs'); 
+http.createServer(function (req, res) { 
+ if (req.url == '/fileupload') { 
+ var form = new formidable.IncomingForm(); 
+ form.parse(req, function (err, fields, files) { 
+ var oldpath = files.filetoupload.filepath; 
+ var newpath = 'C:\Users\LAB-2\Desktop\demo' + 
+files.filetoupload.originalFilename; 
+ fs.rename(oldpath, newpath, function (err) { 
+ if (err) throw err; 
+ res.write('File uploaded and moved!'); 
+ res.end(); 
+ }); 
+ }); 
+ } else { 
+ res.writeHead(200, {'Content-Type': 'text/html'}); 
+ res.write('<form action="fileupload" method="post" 
+enctype="multipart/form-data">'); 
+ res.write('<input type="file" name="filetoupload"><br>'); 
+ res.write('<input type="submit">'); 
+ res.write('</form>'); 
+ return res.end(); 
+ } 
+}).listen(8080);
+
+
+
+
+
+
